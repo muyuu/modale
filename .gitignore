@@ -1,0 +1,10 @@
+*.swp
+*~
+.DS_Store
+.sass-cache
+node_modules
+bower_components
+*.iml
+.idea
+
+test/powered-test/
