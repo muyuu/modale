@@ -60,7 +60,8 @@
         var rootElement = ".js-onModal";
         var opt = existy(param) ? param : {};
 
-        var $self = $(rootElement);
+        var $self;
+        if (!existy(opt.root)) $self = $(rootElement);
         if (existy(opt.root)) $self = opt.root instanceof jQuery ? param.root : $(param.root);
 
         this[0] = $self.map(function(key, val){ return new Module(opt, val); });
@@ -80,19 +81,29 @@
 
         self.opt = {
             root   : self.defaultRootElement,
+            width  : isUndefined(param.width) ? 40 : param.width,
+            height : isUndefined(param.height) ? 40 : param.height,
             padding: isUndefined(param.padding) ? 40 : param.padding
         };
 
-        self.$root.on("click", {module: self}, self.init);
+        self.$root.on("click", {module: self}, self.openHandler);
     }
 
 
-    Module.prototype.init = function(e) {
+    Module.prototype.openHandler = function(e) {
+        e.preventDefault();
         var self = e.data.module;
-        self.setSrc(this);
+        var target = this;
+        self.init(target, self);
+        return self;
+    };
+
+
+    Module.prototype.init = function(target, self) {
+        self.setSrc(target);
         self.drawModalElement();
         self.calcSize(self.open);
-        return false;
+        return self;
     };
 
 
@@ -104,6 +115,9 @@
         }
         if (isPng(this.target) || isGif(this.target) || isJpg(this.target)) {
             this.type = "img";
+        }
+        if (isDiv(this.target)) {
+            this.type = "div";
         }
         return this;
     };
@@ -146,6 +160,9 @@
         var contentStr = "<img src='" + this.target + "' >";
         if (this.type === "youtube") {
             contentStr = "<iframe src='" + this.target + "' width='1000' height='563' frameborder='0' allowfullscreen></iframe>";
+        }
+        if (this.type === "div"){
+            contentStr = $(this.target);
         }
         this.$modalBody.append(contentStr);
         return this;
@@ -242,14 +259,15 @@
     function isPng(str){ return getExtension(str) === "png"; }
     function isGif(str){ return getExtension(str) === "gif"; }
     function isJpg(str){ return getExtension(str) === "jpg"; }
+    function isDiv(str){ return str.indexOf("#") === 0; }
 
     function getExtension(fileName) {
         var ret;
-        if (!fileName) return ret;
+        if (!fileName) return false;
 
         var fileTypes = fileName.split(".");
         var len = fileTypes.length;
-        if (len === 0)return ret;
+        if (len === 0)return false;
 
         ret = fileTypes[len - 1];
         return ret;
