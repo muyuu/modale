@@ -16,6 +16,11 @@ g.task "connect", ->
     .pipe $.open "", options
 
 
+g.task 'babel', ->
+    g.src ['src/js/modal.js']
+    .pipe $.babel()
+    .pipe g.dest './'
+
 g.task 'lint', ->
     g.src(['modal.js', 'app.js'])
     .pipe($.eslint())
@@ -26,9 +31,12 @@ g.task 'jscs', ()->
     g.src ['modal.js', 'app.js']
     .pipe $.jscs()
 
+g.task 'dev', ['babel'], ()->
+    g.start ['lint', 'jscs']
+
 
 g.task "default", ['connect'], ->
-    g.watch "**/*.js", ["lint", "jscs"]
+    g.watch "**/*.js", ["dev"]
 
 
 # build
