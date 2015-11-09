@@ -258,9 +258,5 @@
         self.$modalCloseElements.on("click", {module: self}, self.close);
     };
 
-    // -------------------------------------------------------
-    // library utility functions
-    // -------------------------------------------------------
-
     return Factory;
 });
