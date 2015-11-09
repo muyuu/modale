@@ -1,7 +1,7 @@
 (function(definition){
     "use strict";
 
-    var moduleName = "UiModal";
+    var moduleName = "uiModal";
 
     var root = (typeof self === "object" && self.self === self && self) || (typeof global === "object" && global.global === global && global);
 
@@ -61,7 +61,7 @@
      * @prop {array} instance
      * @namespace
      */
-    function Factory(param){
+    function factory(param){
         var rootElement = ".js-onModal";
         var opt = !isUndefined(param) ? param : {};
 
@@ -69,7 +69,7 @@
         if (isUndefined(opt.root)) $self = $(rootElement);
         if (!isUndefined(opt.root)) $self = opt.root instanceof jQuery ? param.root : $(param.root);
 
-        this[0] = $self.map((key, val)=>{ new Module(opt, val); });
+        return $self.map((key, val)=>{ new Module(opt, val); });
     }
 
 
@@ -258,5 +258,5 @@
         self.$modalCloseElements.on("click", {module: self}, self.close);
     };
 
-    return Factory;
+    return factory;
 });
