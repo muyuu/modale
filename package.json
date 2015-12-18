@@ -1,14 +1,14 @@
 {
-  "name": "",
+  "name": "antibase-modal",
   "version": "1.0.0",
-  "description": "DOM Tab UI module",
-  "main": "tab.js",
+  "description": "DOM Modal UI module",
+  "main": "modal.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/muyuu/"
+    "url": "https://github.com/muyuu/antibase-modal"
   },
   "keywords": [
-    "tab",
+    "modal",
     "browser"
   ],
   "scripts": {
@@ -28,8 +28,7 @@
     "gulp-rename": "",
     "gulp-sourcemaps": "",
     "gulp-uglify": "",
-    "jquery": "^2.1.4",
-    "underscore": "^1.8.3"
+    "jquery": "^2.1.4"
   },
   "author": "muyuu",
   "license": "MIT"
