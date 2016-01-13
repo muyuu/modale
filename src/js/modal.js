@@ -17,18 +17,8 @@
     // utility functions
     // -------------------------------------------------------
 
-    /**
-     * trim string "."
-     * @param  {string} s text
-     * @return {string} cutted "." string
-     */
     var trimDot = s =>{ return s.replace(".", ""); };
 
-    /**
-     * judge undefined
-     * @param  {any} obj anything
-     * @return {boolean}
-     */
     var isUndefined = obj =>{ return obj === void 0; };
 
 
