@@ -1,13 +1,15 @@
 "use strict";
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
 (function (definition) {
     "use strict";
 
     var moduleName = "uiModal";
 
-    var root = typeof self === "object" && self.self === self && self || typeof global === "object" && global.global === global && global;
+    var root = (typeof self === "undefined" ? "undefined" : _typeof(self)) === "object" && self.self === self && self || (typeof global === "undefined" ? "undefined" : _typeof(global)) === "object" && global.global === global && global;
 
-    if (typeof exports === "object") {
+    if ((typeof exports === "undefined" ? "undefined" : _typeof(exports)) === "object") {
         module.exports = definition(root, require("jquery"));
     } else {
         root[moduleName] = definition(root, $);
@@ -19,20 +21,10 @@
     // utility functions
     // -------------------------------------------------------
 
-    /**
-     * trim string "."
-     * @param  {string} s text
-     * @return {string} cutted "." string
-     */
     var trimDot = function trimDot(s) {
         return s.replace(".", "");
     };
 
-    /**
-     * judge undefined
-     * @param  {any} obj anything
-     * @return {boolean}
-     */
     var isUndefined = function isUndefined(obj) {
         return obj === void 0;
     };
