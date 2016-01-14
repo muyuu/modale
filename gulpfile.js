@@ -18,6 +18,13 @@ g.task("connect", () => {
         .pipe($.open("", options));
 });
 
+g.task('css', ()=>{
+    g.src(['src/css/style.sass'])
+     .pipe($.sass())
+     .pipe(g.dest('./'));
+});
+
+
 g.task('babel', ()=>{
     g.src(['src/js/modal.js'])
         .pipe($.babel({
@@ -44,6 +51,7 @@ g.task('dev', ['babel'], ()=>{
 
 g.task("default", ['connect'], ()=>{
     g.watch("**/*.js", ["dev"]);
+    g.watch("src/**/*.sass", ["css"]);
 });
 
 
