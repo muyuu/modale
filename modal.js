@@ -141,7 +141,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     };
 
     Module.prototype.drawOverlay = function () {
-        $("body").append("<div id='js-modalOverlay' class='ui-modalOverlay'>");
+        $("body").append("<div id='js-modalOverlay' class='ui-modal__overlay'>");
         this.$overlay = $("#js-modal-overlay");
         return this;
     };
@@ -153,8 +153,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     };
 
     Module.prototype.drawModalBody = function () {
-        this.$modal.append("<div id='js-modal__body' class='ui-modal__body'>");
-        this.$modalBody = $("#js-modal__body");
+        this.$modal.append("<div id='js-modalBody' class='ui-modal__body'>");
+        this.$modalBody = $("#js-modalBody");
         return this;
     };
 
@@ -171,7 +171,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     };
 
     Module.prototype.drawModalBtn = function () {
-        var btnStr = "<a id='js-modal__close' class='ui-modal__close' href='#'>close</a>";
+        var btnStr = "<a id='js-modalClose' class='ui-modal__close' href='#'>close</a>";
         this.$modalBody.append(btnStr);
         return this;
     };
@@ -182,7 +182,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     };
 
     Module.prototype.setModalCloseElements = function () {
-        this.$modalCloseElements = $("#js-modalOverlay, #js-modal__close");
+        this.$modalCloseElements = $("#js-modalOverlay, #js-modalClose");
         return this;
     };
 

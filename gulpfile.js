@@ -50,7 +50,7 @@ g.task('dev', ['babel'], ()=>{
 });
 
 g.task("default", ['connect'], ()=>{
-    g.watch("**/*.js", ["dev"]);
+    g.watch("src/**/*.js", ["dev"]);
     g.watch("src/**/*.sass", ["css"]);
 });
 
