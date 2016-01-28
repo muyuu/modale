@@ -31,3 +31,19 @@ body.js-noScroll {
     width: 40px;
     height: 40px;
     cursor: pointer; }
+  .ui-modal__body > div {
+    display: inherit; }
+  .ui-modal iframe {
+    vertical-align: top; }
+
+.innercontent {
+  background: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center; }
+
+.box {
+  padding: 60px 0; }
+
+.hidden {
+  display: none; }
