@@ -5,10 +5,10 @@ this library is browser modal module.
 ## install
 
 ### npm
-```npm install ui--modal --save-dev```
+```npm install antibase-modal --save-dev```
 
 ### bower
-```bower install ui--modal --save```
+```bower install antibase-modal --save```
 
 
 ## usage
