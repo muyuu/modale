@@ -1,25 +1,21 @@
-# modal UI
+# modale
 
-this library is browser modal module.
+This library is browser modal module.
 
 ## install
 
 ### npm
-```npm install antibase-modal --save-dev```
-
-### bower
-```bower install antibase-modal --save```
-
+```npm install modale --save-dev```
 
 ## usage
 
 ### browserify
 ```
-var modal = require('modal');
+var modale = require('modale');
 
-var modal01 modal({root: "js-modalpattern01"});
+var modal01 modale({root: "js-modalpattern01"});
 
-var modal02 modal({
+var modal02 modale({
   root: "js-modalpattern02",
   width: 1000,
   height: 500
@@ -29,10 +25,10 @@ var modal02 modal({
 ### other
 ```
 <script src="jquery.js"></script>
-<script src="modal.js"></script>
+<script src="modale.js"></script>
 <script src="app.js"></script> // module load
 
 # app.js
-var modal01 = uiModal();
+var modal01 = uiModale();
 ```
 

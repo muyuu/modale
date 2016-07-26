@@ -1,28 +1,27 @@
-/*global UiModal*/
-(function($, global) {
+(function($, global){
     "use strict";
 
     // img
-    var modal01 = uiModal();
+    var modal01 = uiModale();
 
     // iframe
-    var modal02 = uiModal({
-      root: ".js-onModal-iframe",
-      type: "iframe"
+    var modal02 = uiModale({
+        root: ".js-modale-iframe",
+        type: "iframe"
     });
 
     // youtube
-    var modal02 = uiModal({
-      root: ".js-onModal-youtube"
+    var modal02 = uiModale({
+        root: ".js-modale-youtube"
     });
 
     // div
-    var modaldiv = uiModal({
-      root: ".js-onModal-div"
+    var modaldiv = uiModale({
+        root: ".js-modale-div"
     });
-    var modaldivclone = uiModal({
-      root: ".js-onModal-div-clone",
-      clone: true
+    var modaldivclone = uiModale({
+        root : ".js-modale-div-clone",
+        clone: true
     });
 
 })(jQuery, (this || 0).self || global);

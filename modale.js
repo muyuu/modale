@@ -5,7 +5,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function (definition) {
     "use strict";
 
-    var moduleName = "uiModal";
+    var moduleName = "uiModale";
 
     var root = (typeof self === "undefined" ? "undefined" : _typeof(self)) === "object" && self.self === self && self || (typeof global === "undefined" ? "undefined" : _typeof(global)) === "object" && global.global === global && global;
 
@@ -46,7 +46,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     };
 
     var getExtension = function getExtension(fileName) {
-        var ret;
+        var ret = void 0;
         if (!fileName) return false;
 
         var fileTypes = fileName.split(".");
@@ -69,7 +69,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @namespace
      */
     function factory(param) {
-        var rootElement = ".js-onModal";
+        var rootElement = ".js-modale";
         var opt = !isUndefined(param) ? param : {};
 
         var $self;
@@ -83,24 +83,25 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     /**
      * constructor
-     * @type {Function}
+     * @sourceType {Function}
      */
     function Module(param, moduleRoot) {
         var _this = this;
 
         this.target = null;
+        this.sourceType = null;
         this.extension = null;
         this.$root = $(moduleRoot);
 
         this.opt = {
-            root: this.defaultRootElement,
+            root: this.moduleRoot,
             width: isUndefined(param.width) ? 800 : param.width,
             height: isUndefined(param.height) ? 600 : param.height,
             padding: isUndefined(param.padding) ? 40 : param.padding,
 
             type: isUndefined(param.type) ? "img" : param.type,
 
-            startopen: isUndefined(param.startopen) ? false : param.startopen,
+            startOpen: isUndefined(param.startOpen) ? false : param.startOpen,
 
             clone: isUndefined(param.clone) ? false : param.clone,
             btn: isUndefined(param.btn) ? true : param.btn
@@ -113,11 +114,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             return false;
         });
 
-        if (this.opt.startopen) this.init();
+        if (this.opt.startOpen) this.init();
     }
 
     Module.prototype.init = function () {
-        console.log('init');
         this.setTarget();
         this.setType();
         this.drawModalElement();
@@ -128,31 +128,32 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     Module.prototype.setTarget = function () {
 
         this.target = this.$root.attr("href");
-
         return this;
     };
 
-    Module.prototype.setType = function (link) {
+    Module.prototype.setType = function () {
 
         if (this.target.indexOf("youtube.com") !== -1) {
-            this.type = "youtube";
+            this.sourceType = "youtube";
             this.setYoutubeId();
         }
         if (isPng(this.target) || isGif(this.target) || isJpg(this.target)) {
-            this.type = "img";
+            this.sourceType = "img";
         }
         if (isDiv(this.target)) {
-            this.type = "div";
+            this.sourceType = "div";
         }
         if (this.opt.type === "iframe") {
-            this.type = "iframe";
+            this.sourceType = "iframe";
         }
         return this;
     };
 
     Module.prototype.setYoutubeId = function () {
         this.target = this.getYoutubeId();
+        return this;
     };
+
     Module.prototype.getYoutubeId = function () {
         var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
         var match = this.target.match(regExp);
@@ -180,24 +181,23 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     Module.prototype.drawOverlay = function () {
 
-        $("body").append("<div id='js-modalOverlay' class='ui-modal__overlay'>");
-        this.$overlay = $("#js-modal-overlay");
-
+        $("body").append("<div id='js-modaleOverlay' class='ui-modal__overlay'>");
+        this.$overlay = $("#js-modale-overlay");
         return this;
     };
 
     Module.prototype.drawModal = function () {
 
-        $("body").append("<div id='js-modal' class='ui-modal'>");
-        this.$modal = $("#js-modal");
+        $("body").append("<div id='js-modale' class='ui-modal'>");
+        this.$modal = $("#js-modale");
 
         return this;
     };
 
     Module.prototype.drawModalBody = function () {
 
-        this.$modal.append("<div id='js-modalBody' class='ui-modal__body'>");
-        this.$modalBody = $("#js-modalBody");
+        this.$modal.append("<div id='js-modaleBody' class='ui-modal__body'>");
+        this.$modalBody = $("#js-modaleBody");
 
         return this;
     };
@@ -206,20 +206,21 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
         var contentStr = "<img src='" + this.target + "' >";
 
-        if (this.type === "youtube") {
+        if (this.sourceType === "youtube") {
             contentStr = "<iframe src='https://www.youtube.com/embed/" + this.target + "?enablejsapi=1&amp;rel=0&amp;controls=0&amp;showinfo=0' width='' height='' frameborder='0' allowfullscreen></iframe>";
         }
-        if (this.type === "iframe") {
+        if (this.sourceType === "iframe") {
             contentStr = "<iframe src='" + this.target + "' width='' height='' frameborder='0' allowfullscreen></iframe>";
         }
 
-        if (this.type === "div") {
+        if (this.sourceType === "div") {
             if (this.opt.clone) {
                 contentStr = $(this.target).clone(true, true);
             } else {
                 contentStr = $(this.target);
             }
         }
+        console.log(contentStr);
 
         this.$modalBody.append(contentStr);
 
@@ -227,25 +228,25 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     };
 
     Module.prototype.drawModalBtn = function () {
-        var btnStr = "<a id='js-modalClose' class='ui-modal__close' href='#'>close</a>";
+        var btnStr = "<a id='js-modaleClose' class='ui-modal__close' href='#'>close</a>";
         this.$modalBody.append(btnStr);
         return this;
     };
 
     Module.prototype.setModalElements = function () {
-        this.$modalElements = $("#js-modalOverlay, #js-modal");
+        this.$modalElements = $("#js-modaleOverlay, #js-modale");
         return this;
     };
 
     Module.prototype.setModalCloseElements = function () {
-        this.$modalCloseElements = $("#js-modalOverlay, #js-modalClose");
+        this.$modalCloseElements = $("#js-modaleOverlay, #js-modaleClose");
         return this;
     };
 
     Module.prototype.calcSize = function (func) {
         var _this2 = this;
 
-        if (this.type === "img") {
+        if (this.sourceType === "img") {
 
             var img = new Image();
             img.src = this.target;
@@ -273,7 +274,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             height: height
         });
 
-        if (this.type === "youtube" || this.type === "iframe") {
+        if (this.sourceType === "youtube" || this.sourceType === "iframe") {
             this.$modalBody.find('iframe').css({
                 width: width,
                 height: height
@@ -284,9 +285,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     };
 
     /**
-    * open body panel
-    * @returns {boolean}
-    */
+     * open body panel
+     * @returns {object} this
+     */
     Module.prototype.open = function () {
         var _this3 = this;
 
@@ -303,13 +304,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         var _this4 = this;
 
         this.$modalElements.fadeOut(function () {
+            var $body = $("body");
 
-            if (_this4.type === "div" && !_this4.opt.clone) {
-                $("body").append($(_this4.target));
+            if (_this4.sourceType === "div" && !_this4.opt.clone) {
+                $body.append($(_this4.target));
             }
 
             _this4.$modalElements.remove();
-            $("body").removeClass("js-noScroll");
+            $body.removeClass("js-noScroll");
         });
 
         return this;

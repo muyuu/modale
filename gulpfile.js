@@ -1,71 +1,82 @@
-const g = require("gulp");
-const $ = require( 'gulp-load-plugins' )();
-const connect = require('gulp-connect');
+const gulp = require("gulp");
+const babel = require("gulp-babel");
+const eslint = require("gulp-eslint");
+const connect = require("gulp-connect");
+const jscs = require("gulp-jscs");
+const open = require("gulp-open");
+const rename = require("gulp-rename");
+const sass = require("gulp-sass");
+const sourcemaps = require("gulp-sourcemaps");
+const uglify = require("gulp-uglify");
+
+const port = 7000;
+const filename = "modale";
+const file = `${filename}.js`;
+
 
 // local server
-g.task("connect", () => {
+gulp.task("connect", () =>{
     connect.server({
-        port      : 3000,
+        port      : port,
         livereload: true
     });
 
-    options = {
-        url: "http://localhost:3000",
-        app: "Google Chrome"
-    };
-
-    g.src("./index.html")
-        .pipe($.open("", options));
+    gulp.src("./index.html")
+        .pipe(open({
+            uri: `http://localhost:${port}/index.html`,
+            app: "Google Chrome"
+        }));
 });
 
-g.task('css', ()=>{
-    g.src(['src/css/style.sass'])
-     .pipe($.sass())
-     .pipe(g.dest('./'));
+gulp.task("css", ()=>{
+    gulp.src(["src/css/style.sass"])
+        .pipe(sass())
+        .pipe(gulp.dest("./"));
 });
 
 
-g.task('babel', ()=>{
-    g.src(['src/js/modal.js'])
-        .pipe($.babel({
-            presets: ['es2015']
+gulp.task("babel", ()=>{
+    gulp.src([`src/js/${file}`])
+        .pipe(babel({
+            presets: ["es2015"]
         }))
-        .pipe(g.dest('./'));
-});
-
-g.task('lint', ()=>{
-    g.src(['modal.js', 'app.js'])
-        .pipe($.eslint())
-        .pipe($.eslint.format());
+        .pipe(gulp.dest("./"));
 });
 
 
-g.task('jscs', ()=>{
-    g.src(['modal.js', 'app.js'])
-        .pipe($.jscs());
-});
-
-g.task('dev', ['babel'], ()=>{
-    g.start(['lint', 'jscs']);
-});
-
-g.task("default", ['connect'], ()=>{
-    g.watch("src/**/*.js", ["dev"]);
-    g.watch("src/**/*.sass", ["css"]);
+gulp.task('lint', ()=>{
+    gulp.src([file])
+        .pipe(eslint())
+        .pipe(eslint.format());
 });
 
 
- //build
-g.task('build', ()=>{
-    g.src('./modal.js')
-        .pipe($.sourcemaps.init())
-        .pipe($.rename({
-            basename: "modal.min",
-            extname: ".js"
+gulp.task('jscs', ()=>{
+    gulp.src(file)
+        .pipe(jscs());
+});
+
+
+gulp.task('dev', ['babel'], ()=>{
+    gulp.run(['lint', 'jscs']);
+});
+
+
+gulp.task("default", ["connect"], ()=>{
+    gulp.watch("./src/**/*.js", ["dev"]);
+    gulp.watch("./src/**/*.sass", ["css"]);
+});
+
+
+// build
+gulp.task('build', ()=>{
+    gulp.src(file)
+        .pipe(sourcemaps.init())
+        .pipe(rename({
+            basename: `${filename}.min`,
+            extname : `.js`
         }))
-        .pipe($.uglify())
-        .pipe($.sourcemaps.write('./'))
-        .pipe(g.dest('./'));
+        .pipe(uglify())
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest('./'));
 });
-
-
