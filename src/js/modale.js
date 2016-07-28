@@ -91,6 +91,7 @@
             btn  : isUndefined(param.btn) ? false : param.btn,
 
             btnStr  : isUndefined(param.btnStr) ? "close" : param.btnStr,
+            btnPadding  : isUndefined(param.btnPadding) ? 20 : param.btnPadding,
 
             // callback
             onOpen : isUndefined(param.onOpen) ? null : param.onOpen,
@@ -279,7 +280,7 @@
 
         if (this.opt.btn){
             this.$modalBtn.css({
-                "margin-top": (height / 2) + 20
+                "margin-top": (height / 2) + this.opt.btnPadding
             });
         }
 
