@@ -104,7 +104,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             startOpen: isUndefined(param.startOpen) ? false : param.startOpen,
 
             clone: isUndefined(param.clone) ? false : param.clone,
-            btn: isUndefined(param.btn) ? true : param.btn
+            btn: isUndefined(param.btn) ? true : param.btn,
+
+            // callback
+            onOpen: isUndefined(param.onOpen) ? null : param.onOpen,
+            onClose: isUndefined(param.onClose) ? null : param.onClose
         };
 
         this.$root.on("click", function (e) {
@@ -295,6 +299,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
         this.$modalElements.fadeIn(function () {
             _this3.setCloseEvent();
+
+            if (typeof _this3.opt.onOpen === 'function') _this3.opt.onOpen();
         });
 
         return this;
@@ -312,6 +318,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
             _this4.$modalElements.remove();
             $body.removeClass("js-noScroll");
+
+            if (typeof _this4.opt.onClose === 'function') _this4.opt.onClose();
         });
 
         return this;
