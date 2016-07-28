@@ -336,7 +336,8 @@
 
     Module.prototype.setCloseEvent = function(){
 
-        this.$modalCloseElements.on("click", ()=>{
+        this.$modalCloseElements.on("click", (e)=>{
+            e.preventDefault();
             this.close();
         });
     };

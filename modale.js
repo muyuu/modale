@@ -342,7 +342,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     Module.prototype.setCloseEvent = function () {
         var _this5 = this;
 
-        this.$modalCloseElements.on("click", function () {
+        this.$modalCloseElements.on("click", function (e) {
+            e.preventDefault();
             _this5.close();
         });
     };
