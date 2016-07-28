@@ -296,9 +296,10 @@
 
         this.$modalElements.fadeIn(()=>{
             this.setCloseEvent();
-
-            if (typeof this.opt.onOpen === 'function') this.opt.onOpen();
         });
+
+        if (typeof this.opt.onOpen !== 'function') return this;
+        setTimeout(()=>{ this.opt.onOpen(); }, 400);
 
         return this;
     };
@@ -315,9 +316,10 @@
 
             this.$modalElements.remove();
             $body.removeClass("js-noScroll");
-
-            if (typeof this.opt.onClose === 'function') this.opt.onClose();
         });
+
+        if (typeof this.opt.onClose !== 'function') return this;
+        setTimeout(()=>{ this.opt.onClose(); }, 400);
 
         return this;
     };

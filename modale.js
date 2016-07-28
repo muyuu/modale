@@ -298,9 +298,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
         this.$modalElements.fadeIn(function () {
             _this3.setCloseEvent();
-
-            if (typeof _this3.opt.onOpen === 'function') _this3.opt.onOpen();
         });
+
+        if (typeof this.opt.onOpen !== 'function') return this;
+        setTimeout(function () {
+            _this3.opt.onOpen();
+        }, 400);
 
         return this;
     };
@@ -317,9 +320,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
             _this4.$modalElements.remove();
             $body.removeClass("js-noScroll");
-
-            if (typeof _this4.opt.onClose === 'function') _this4.opt.onClose();
         });
+
+        if (typeof this.opt.onClose !== 'function') return this;
+        setTimeout(function () {
+            _this4.opt.onClose();
+        }, 400);
 
         return this;
     };
