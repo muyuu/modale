@@ -104,7 +104,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             startOpen: isUndefined(param.startOpen) ? false : param.startOpen,
 
             clone: isUndefined(param.clone) ? false : param.clone,
-            btn: isUndefined(param.btn) ? true : param.btn,
+            btn: isUndefined(param.btn) ? false : param.btn,
+
+            btnStr: isUndefined(param.btnStr) ? "close" : param.btnStr,
 
             // callback
             onOpen: isUndefined(param.onOpen) ? null : param.onOpen,
@@ -226,18 +228,18 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
 
         this.$modalBody.append(contentStr);
-
         return this;
     };
 
     Module.prototype.drawModalBtn = function () {
-        var btnStr = "<a id='js-modaleClose' class='ui-modal__close' href='#'>close</a>";
-        this.$modalBody.append(btnStr);
+        var btnStr = "<a id='js-modaleClose' class='ui-modal__close' href='#'>" + this.opt.btnStr + "</a>";
+        $("body").append(btnStr);
+        this.$modalBtn = $("#js-modaleClose");
         return this;
     };
 
     Module.prototype.setModalElements = function () {
-        this.$modalElements = $("#js-modaleOverlay, #js-modale");
+        this.$modalElements = $("#js-modaleOverlay, #js-modale, #js-modaleClose");
         return this;
     };
 
@@ -276,6 +278,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             width: width,
             height: height
         });
+
+        if (this.opt.btn) {
+            this.$modalBtn.css({
+                "margin-top": height / 2 + 20
+            });
+        }
 
         if (this.sourceType === "youtube" || this.sourceType === "iframe") {
             this.$modalBody.find('iframe').css({

@@ -25,11 +25,19 @@ body.js-noScroll {
     background: url("./ptn_modal01.png");
     background: rgba(0, 0, 0, 0.6); }
   .ui-modal__close {
-    position: absolute;
-    right: -20px;
-    top: -20px;
-    width: 40px;
+    display: none;
+    position: fixed;
+    z-index: 10002;
+    left: 50%;
+    top: 50%;
+    width: 80px;
     height: 40px;
+    margin-left: -40px;
+    color: #fff;
+    background: #333;
+    border: 1px solid #fff;
+    text-align: center;
+    line-height: 40px;
     cursor: pointer; }
   .ui-modal__body > div {
     display: inherit; }

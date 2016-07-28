@@ -7,7 +7,9 @@
     // iframe
     var modal02 = uiModale({
         root: ".js-modale-iframe",
-        type: "iframe"
+        type: "iframe",
+        btn: true,
+        btnStr: "閉じる"
     });
 
     // youtube
