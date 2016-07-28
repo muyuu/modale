@@ -224,7 +224,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 contentStr = $(this.target);
             }
         }
-        console.log(contentStr);
 
         this.$modalBody.append(contentStr);
 

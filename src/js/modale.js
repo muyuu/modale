@@ -218,7 +218,6 @@
                 contentStr = $(this.target);
             }
         }
-        console.log(contentStr);
 
         this.$modalBody.append(contentStr);
 
