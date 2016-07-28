@@ -88,7 +88,11 @@
             startOpen: isUndefined(param.startOpen) ? false : param.startOpen,
 
             clone: isUndefined(param.clone) ? false : param.clone,
-            btn  : isUndefined(param.btn) ? true : param.btn
+            btn  : isUndefined(param.btn) ? true : param.btn,
+
+            // callback
+            onOpen : isUndefined(param.onOpen) ? null : param.onOpen,
+            onClose: isUndefined(param.onClose) ? null : param.onClose
         };
 
         this.$root.on("click", (e)=>{
@@ -293,6 +297,8 @@
 
         this.$modalElements.fadeIn(()=>{
             this.setCloseEvent();
+
+            if (typeof this.opt.onOpen === 'function') this.opt.onOpen();
         });
 
         return this;
@@ -310,6 +316,8 @@
 
             this.$modalElements.remove();
             $body.removeClass("js-noScroll");
+
+            if (typeof this.opt.onClose === 'function') this.opt.onClose();
         });
 
         return this;
