@@ -8,6 +8,7 @@
     var modal02 = uiModale({
         root: ".js-modale-iframe",
         type: "iframe",
+        closeEl: "#js-modaleClose",
         btn: true,
         btnStr: "閉じる"
     });

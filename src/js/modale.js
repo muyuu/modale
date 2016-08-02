@@ -84,6 +84,7 @@
             padding: isUndefined(param.padding) ? 40 : param.padding,
 
             type: isUndefined(param.type) ? "img" : param.type,
+            closeEl  : isUndefined(param.closeEl) ? "#js-modaleOverlay, #js-modaleClose" : param.closeEl,
 
             startOpen: isUndefined(param.startOpen) ? false : param.startOpen,
 
@@ -242,7 +243,7 @@
 
 
     Module.prototype.setModalCloseElements = function(){
-        this.$modalCloseElements = $("#js-modaleOverlay, #js-modaleClose");
+        this.$modalCloseElements = $(this.opt.closeEl);
         return this;
     };
 
