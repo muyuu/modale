@@ -6,7 +6,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     "use strict";
 
     var moduleName = "uiModale";
-
     var root = (typeof self === "undefined" ? "undefined" : _typeof(self)) === "object" && self.self === self && self || (typeof global === "undefined" ? "undefined" : _typeof(global)) === "object" && global.global === global && global;
 
     if ((typeof exports === "undefined" ? "undefined" : _typeof(exports)) === "object") {
@@ -24,11 +23,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     var trimDot = function trimDot(s) {
         return s.replace(".", "");
     };
-
     var isUndefined = function isUndefined(obj) {
         return obj === void 0;
     };
-
     var isPng = function isPng(str) {
         return getExtension(str) === "png";
     };
@@ -44,7 +41,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     var isYoutube = function isYoutube(str) {
         return str.indexOf("youtube.com") !== -1;
     };
-
     var getExtension = function getExtension(fileName) {
         var ret = void 0;
         if (!fileName) return false;
@@ -72,7 +68,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         var rootElement = ".js-modale";
         var opt = !isUndefined(param) ? param : {};
 
-        var $self;
+        var $self = void 0;
         if (isUndefined(opt.root)) $self = $(rootElement);
         if (!isUndefined(opt.root)) $self = opt.root instanceof jQuery ? param.root : $(param.root);
 
@@ -94,7 +90,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         this.$root = $(moduleRoot);
 
         this.opt = {
-            root: this.moduleRoot,
+            root: moduleRoot,
             width: isUndefined(param.width) ? 800 : param.width,
             height: isUndefined(param.height) ? 600 : param.height,
             padding: isUndefined(param.padding) ? 40 : param.padding,
@@ -145,15 +141,19 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             this.sourceType = "youtube";
             this.setYoutubeId();
         }
+
         if (isPng(this.target) || isGif(this.target) || isJpg(this.target)) {
             this.sourceType = "img";
         }
+
         if (isDiv(this.target)) {
             this.sourceType = "div";
         }
+
         if (this.opt.type === "iframe") {
             this.sourceType = "iframe";
         }
+
         return this;
     };
 
@@ -254,17 +254,19 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         var _this2 = this;
 
         if (this.sourceType === "img") {
+            (function () {
 
-            var img = new Image();
-            img.src = this.target;
+                var img = new Image();
+                img.src = _this2.target;
 
-            img.onload = function () {
-                _this2.setSize(img.width, img.height);
+                img.onload = function () {
+                    _this2.setSize(img.width, img.height);
 
-                // callback function
-                if (typeof func !== "function") return false;
-                func.apply(_this2);
-            };
+                    // callback function
+                    if (typeof func !== "function") return false;
+                    func.apply(_this2);
+                };
+            })();
         } else {
 
             this.setSize(this.opt.width, this.opt.height);
@@ -288,7 +290,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
 
         if (this.sourceType === "youtube" || this.sourceType === "iframe") {
-            this.$modalBody.find('iframe').css({
+            this.$modalBody.find("iframe").css({
                 width: width,
                 height: height
             });
@@ -310,9 +312,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             _this3.setCloseEvent();
         });
 
-        if (typeof this.opt.onOpen !== 'function') return this;
+        if (typeof this.opt.onOpen !== "function") return this;
         setTimeout(function () {
-            _this3.opt.onOpen();
+            return _this3.opt.onOpen();
         }, 400);
 
         return this;
@@ -332,9 +334,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             $body.removeClass("js-noScroll");
         });
 
-        if (typeof this.opt.onClose !== 'function') return this;
+        if (typeof this.opt.onClose !== "function") return this;
         setTimeout(function () {
-            _this4.opt.onClose();
+            return _this4.opt.onClose();
         }, 400);
 
         return this;

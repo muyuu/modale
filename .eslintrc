@@ -1,13 +1,13 @@
 {
     "rules": {
-        "no-use-before-define": [0],
-        "no-unused-vars": [0],
-        "key-spacing": [0],
-        "quotes": [0],
-        "linebreak-style": [0],
-        "semi": [0],
-        "no-wrap-func": [0],
-        "curly": [0]
+        "semi": 2,
+        "no-var": ["error"],
+        "block-spacing": ["error"],
+        "brace-style": ["error", "1tbs"],
+        "camelcase": ["error", {"properties": "never"}],
+        "key-spacing": ["error", { "align": "colon" }],
+        "quotes": ["error", "double", { "allowTemplateLiterals": true }],
+        "space-before-blocks": ["error", { "functions": "never", "keywords": "always", "classes": "never" }]
     },
     "env": {
         "es6": true,

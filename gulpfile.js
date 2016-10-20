@@ -44,21 +44,15 @@ gulp.task("babel", ()=>{
 });
 
 
-gulp.task('lint', ()=>{
-    gulp.src([file])
+gulp.task("lint", ()=>{
+    gulp.src([`src/js/${file}`])
         .pipe(eslint())
         .pipe(eslint.format());
 });
 
 
-gulp.task('jscs', ()=>{
-    gulp.src(file)
-        .pipe(jscs());
-});
-
-
-gulp.task('dev', ['babel'], ()=>{
-    gulp.run(['lint', 'jscs']);
+gulp.task("dev", ["babel"], ()=>{
+    gulp.run(["lint"]);
 });
 
 
@@ -69,7 +63,7 @@ gulp.task("default", ["connect"], ()=>{
 
 
 // build
-gulp.task('build', ()=>{
+gulp.task("build", ()=>{
     gulp.src(file)
         .pipe(sourcemaps.init())
         .pipe(rename({
@@ -77,6 +71,6 @@ gulp.task('build', ()=>{
             extname : `.js`
         }))
         .pipe(uglify())
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('./'));
+        .pipe(sourcemaps.write("./"))
+        .pipe(gulp.dest("./"));
 });

@@ -1,11 +1,10 @@
 (function(definition){
     "use strict";
 
-    var moduleName = "uiModale";
+    let moduleName = "uiModale";
+    let root = (typeof self === "object" && self.self === self && self) || (typeof global === "object" && global.global === global && global);
 
-    var root = (typeof self === "object" && self.self === self && self) || (typeof global === "object" && global.global === global && global);
-
-    if (typeof exports === "object"){
+    if (typeof exports === "object") {
         module.exports = definition(root, require("jquery"));
     } else {
         root[moduleName] = definition(root, $);
@@ -17,17 +16,13 @@
     // -------------------------------------------------------
     // utility functions
     // -------------------------------------------------------
-
     const trimDot = s => s.replace(".", "");
-
     const isUndefined = obj => obj === void 0;
-
     const isPng = str => getExtension(str) === "png";
     const isGif = str => getExtension(str) === "gif";
     const isJpg = str => getExtension(str) === "jpg";
     const isDiv = str => str.indexOf("#") === 0;
     const isYoutube = (str) => str.indexOf("youtube.com") !== -1;
-
     const getExtension = fileName =>{
         let ret;
         if (!fileName) return false;
@@ -53,10 +48,10 @@
      * @namespace
      */
     function factory(param){
-        var rootElement = ".js-modale";
-        var opt = !isUndefined(param) ? param : {};
+        let rootElement = ".js-modale";
+        let opt = !isUndefined(param) ? param : {};
 
-        var $self;
+        let $self;
         if (isUndefined(opt.root)) $self = $(rootElement);
         if (!isUndefined(opt.root)) $self = opt.root instanceof jQuery ? param.root : $(param.root);
 
@@ -78,26 +73,27 @@
         this.$root = $(moduleRoot);
 
         this.opt = {
-            root   : this.moduleRoot,
+            root   : moduleRoot,
             width  : isUndefined(param.width) ? 800 : param.width,
             height : isUndefined(param.height) ? 600 : param.height,
             padding: isUndefined(param.padding) ? 40 : param.padding,
 
-            type: isUndefined(param.type) ? "img" : param.type,
-            closeEl  : isUndefined(param.closeEl) ? "#js-modaleOverlay, #js-modaleClose" : param.closeEl,
+            type   : isUndefined(param.type) ? "img" : param.type,
+            closeEl: isUndefined(param.closeEl) ? "#js-modaleOverlay, #js-modaleClose" : param.closeEl,
 
             startOpen: isUndefined(param.startOpen) ? false : param.startOpen,
 
             clone: isUndefined(param.clone) ? false : param.clone,
             btn  : isUndefined(param.btn) ? false : param.btn,
 
-            btnStr  : isUndefined(param.btnStr) ? "close" : param.btnStr,
-            btnPadding  : isUndefined(param.btnPadding) ? 20 : param.btnPadding,
+            btnStr    : isUndefined(param.btnStr) ? "close" : param.btnStr,
+            btnPadding: isUndefined(param.btnPadding) ? 20 : param.btnPadding,
 
             // callback
             onOpen : isUndefined(param.onOpen) ? null : param.onOpen,
             onClose: isUndefined(param.onClose) ? null : param.onClose
         };
+
 
         this.$root.on("click", (e)=>{
             e.preventDefault();
@@ -128,19 +124,23 @@
 
     Module.prototype.setType = function(){
 
-        if (this.target.indexOf("youtube.com") !== -1){
+        if (this.target.indexOf("youtube.com") !== -1) {
             this.sourceType = "youtube";
             this.setYoutubeId();
         }
-        if (isPng(this.target) || isGif(this.target) || isJpg(this.target)){
+
+        if (isPng(this.target) || isGif(this.target) || isJpg(this.target)) {
             this.sourceType = "img";
         }
-        if (isDiv(this.target)){
+
+        if (isDiv(this.target)) {
             this.sourceType = "div";
         }
-        if (this.opt.type === "iframe"){
+
+        if (this.opt.type === "iframe") {
             this.sourceType = "iframe";
         }
+
         return this;
     };
 
@@ -152,9 +152,9 @@
 
 
     Module.prototype.getYoutubeId = function(){
-        var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
-        var match = this.target.match(regExp);
-        if (match && match[2].length == 11){
+        let regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
+        let match = this.target.match(regExp);
+        if (match && match[2].length == 11) {
             return match[2];
         } else {
             //error
@@ -168,7 +168,7 @@
         this.drawModalBody();
         this.drawModalContent();
 
-        if (this.opt.btn){
+        if (this.opt.btn) {
             this.drawModalBtn();
         }
 
@@ -206,17 +206,17 @@
 
     Module.prototype.drawModalContent = function(){
 
-        var contentStr = "<img src='" + this.target + "' >";
+        let contentStr = "<img src='" + this.target + "' >";
 
-        if (this.sourceType === "youtube"){
+        if (this.sourceType === "youtube") {
             contentStr = "<iframe src='https://www.youtube.com/embed/" + this.target + "?enablejsapi=1&amp;rel=0&amp;controls=0&amp;showinfo=0' width='' height='' frameborder='0' allowfullscreen></iframe>";
         }
-        if (this.sourceType === "iframe"){
+        if (this.sourceType === "iframe") {
             contentStr = "<iframe src='" + this.target + "' width='' height='' frameborder='0' allowfullscreen></iframe>";
         }
 
-        if (this.sourceType === "div"){
-            if (this.opt.clone){
+        if (this.sourceType === "div") {
+            if (this.opt.clone) {
                 contentStr = $(this.target).clone(true, true);
             } else {
                 contentStr = $(this.target);
@@ -229,7 +229,7 @@
 
 
     Module.prototype.drawModalBtn = function(){
-        var btnStr = `<a id='js-modaleClose' class='ui-modal__close' href='#'>${this.opt.btnStr}</a>`;
+        let btnStr = `<a id='js-modaleClose' class='ui-modal__close' href='#'>${this.opt.btnStr}</a>`;
         $("body").append(btnStr);
         this.$modalBtn = $("#js-modaleClose");
         return this;
@@ -250,9 +250,9 @@
 
     Module.prototype.calcSize = function(func){
 
-        if (this.sourceType === "img"){
+        if (this.sourceType === "img") {
 
-            var img = new Image();
+            let img = new Image();
             img.src = this.target;
 
             img.onload = ()=>{
@@ -279,14 +279,14 @@
             height: height
         });
 
-        if (this.opt.btn){
+        if (this.opt.btn) {
             this.$modalBtn.css({
                 "margin-top": (height / 2) + this.opt.btnPadding
             });
         }
 
-        if (this.sourceType === "youtube" || this.sourceType === "iframe"){
-            this.$modalBody.find('iframe').css({
+        if (this.sourceType === "youtube" || this.sourceType === "iframe") {
+            this.$modalBody.find("iframe").css({
                 width : width,
                 height: height
             });
@@ -308,8 +308,8 @@
             this.setCloseEvent();
         });
 
-        if (typeof this.opt.onOpen !== 'function') return this;
-        setTimeout(()=>{ this.opt.onOpen(); }, 400);
+        if (typeof this.opt.onOpen !== "function") return this;
+        setTimeout(()=> this.opt.onOpen(), 400);
 
         return this;
     };
@@ -320,7 +320,7 @@
         this.$modalElements.fadeOut(()=>{
             let $body = $("body");
 
-            if (this.sourceType === "div" && !this.opt.clone){
+            if (this.sourceType === "div" && !this.opt.clone) {
                 $body.append($(this.target));
             }
 
@@ -328,8 +328,8 @@
             $body.removeClass("js-noScroll");
         });
 
-        if (typeof this.opt.onClose !== 'function') return this;
-        setTimeout(()=>{ this.opt.onClose(); }, 400);
+        if (typeof this.opt.onClose !== "function") return this;
+        setTimeout(()=> this.opt.onClose(), 400);
 
         return this;
     };
