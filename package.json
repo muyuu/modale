@@ -9,6 +9,7 @@
     "modal",
     "browser"
   ],
+  "readme": "README.md",
   "files": [
     "README.md",
     "index.html",
