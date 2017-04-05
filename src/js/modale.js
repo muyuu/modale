@@ -273,22 +273,40 @@
     };
 
 
+    Module.prototype.adjustSize = function(width, height){
+        const offset = this.opt.padding;
+        const windowWidth = $(window).width();
+        const windowHeight = $(window).height();
+
+        if(windowWidth <= width) {
+            width = windowWidth - offset;
+        }
+
+        if(windowHeight <= height) {
+            height = windowHeight - offset;
+        }
+        return [width, height];
+    };
+
+
     Module.prototype.setSize = function(width, height){
+        let calcedWidth,  calcedHeight;
+        [calcedWidth, calcedHeight] = this.adjustSize(width, height);
         this.$modal.css({
-            width : width,
-            height: height
+            width : calcedWidth,
+            height: calcedHeight
         });
 
         if (this.opt.btn) {
             this.$modalBtn.css({
-                "margin-top": (height / 2) + this.opt.btnPadding
+                "margin-top": (calcedHeight / 2) + this.opt.btnPadding
             });
         }
 
         if (this.sourceType === "youtube" || this.sourceType === "iframe") {
             this.$modalBody.find("iframe").css({
-                width : width,
-                height: height
+                width : calcedWidth,
+                height: calcedHeight
             });
         }
 
