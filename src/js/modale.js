@@ -313,6 +313,35 @@
         return this;
     };
 
+    Module.prototype.reCalcSize = function(){
+        const contentWidth = this.$modalBody.width();
+        const contentHeight = this.$modalBody.height();
+        const modalWidth = this.$modal.width();
+        const modalHeight = this.$modal.height();
+        let width, height;
+
+        const isSmallWidthContent = ()=> modalWidth > contentWidth;
+        const isSmallHeightContent = ()=> modalHeight > contentHeight;
+        const notNeedAnimate = ()=> !isSmallWidthContent() && !isSmallHeightContent();
+
+        if(isSmallWidthContent()) {
+            width = contentWidth;
+        }
+
+        if(isSmallHeightContent()) {
+            height = contentHeight;
+        }
+
+        if (notNeedAnimate()) return this;
+
+        this.$modal.animate({
+            width,
+            height,
+        }, 300, "swing");
+
+        return this;
+    };
+
 
     /**
      * open body panel
