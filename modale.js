@@ -1,5 +1,7 @@
 "use strict";
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 (function (definition) {
@@ -277,24 +279,85 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
     };
 
+    Module.prototype.adjustSize = function (width, height) {
+        var offset = this.opt.padding;
+        var windowWidth = $(window).width();
+        var windowHeight = $(window).height();
+
+        if (windowWidth <= width) {
+            width = windowWidth - offset;
+        }
+
+        if (windowHeight <= height) {
+            height = windowHeight - offset;
+        }
+        return [width, height];
+    };
+
     Module.prototype.setSize = function (width, height) {
+        var calcedWidth = void 0,
+            calcedHeight = void 0;
+
+        var _adjustSize = this.adjustSize(width, height);
+
+        var _adjustSize2 = _slicedToArray(_adjustSize, 2);
+
+        calcedWidth = _adjustSize2[0];
+        calcedHeight = _adjustSize2[1];
+
         this.$modal.css({
-            width: width,
-            height: height
+            width: calcedWidth,
+            height: calcedHeight
         });
 
         if (this.opt.btn) {
             this.$modalBtn.css({
-                "margin-top": height / 2 + this.opt.btnPadding
+                "margin-top": calcedHeight / 2 + this.opt.btnPadding
             });
         }
 
         if (this.sourceType === "youtube" || this.sourceType === "iframe") {
             this.$modalBody.find("iframe").css({
-                width: width,
-                height: height
+                width: calcedWidth,
+                height: calcedHeight
             });
         }
+
+        return this;
+    };
+
+    Module.prototype.reCalcSize = function () {
+        var contentWidth = this.$modalBody.width();
+        var contentHeight = this.$modalBody.height();
+        var modalWidth = this.$modal.width();
+        var modalHeight = this.$modal.height();
+        var width = void 0,
+            height = void 0;
+
+        var isSmallWidthContent = function isSmallWidthContent() {
+            return modalWidth > contentWidth;
+        };
+        var isSmallHeightContent = function isSmallHeightContent() {
+            return modalHeight > contentHeight;
+        };
+        var notNeedAnimate = function notNeedAnimate() {
+            return !isSmallWidthContent() && !isSmallHeightContent();
+        };
+
+        if (isSmallWidthContent()) {
+            width = contentWidth;
+        }
+
+        if (isSmallHeightContent()) {
+            height = contentHeight;
+        }
+
+        if (notNeedAnimate()) return this;
+
+        this.$modal.animate({
+            width: width,
+            height: height
+        }, 300, "swing");
 
         return this;
     };
@@ -308,14 +371,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
         $("body").addClass("js-noScroll");
 
-        this.$modalElements.fadeIn(function () {
+        this.$modalElements.fadeIn().promise().done(function () {
             _this3.setCloseEvent();
-        });
+            _this3.reCalcSize();
 
-        if (typeof this.opt.onOpen !== "function") return this;
-        setTimeout(function () {
-            return _this3.opt.onOpen();
-        }, 400);
+            if (typeof _this3.opt.onOpen !== "function") return;
+            _this3.opt.onOpen();
+        });
 
         return this;
     };
@@ -323,7 +385,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     Module.prototype.close = function () {
         var _this4 = this;
 
-        this.$modalElements.fadeOut(function () {
+        this.$modalElements.fadeOut().promise().done(function () {
             var $body = $("body");
 
             if (_this4.sourceType === "div" && !_this4.opt.clone) {
@@ -332,12 +394,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
             _this4.$modalElements.remove();
             $body.removeClass("js-noScroll");
-        });
 
-        if (typeof this.opt.onClose !== "function") return this;
-        setTimeout(function () {
-            return _this4.opt.onClose();
-        }, 400);
+            if (typeof _this4.opt.onClose !== "function") return;
+            _this4.opt.onClose();
+        });
 
         return this;
     };
