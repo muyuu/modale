@@ -351,12 +351,16 @@
 
         $("body").addClass("js-noScroll");
 
-        this.$modalElements.fadeIn(()=>{
-            this.setCloseEvent();
-        });
+        this.$modalElements
+            .fadeIn()
+            .promise()
+            .done(()=>{
+                this.setCloseEvent();
+                this.reCalcSize();
 
-        if (typeof this.opt.onOpen !== "function") return this;
-        setTimeout(()=> this.opt.onOpen(), 400);
+                if (typeof this.opt.onOpen !== "function") return;
+                this.opt.onOpen();
+            });
 
         return this;
     };
@@ -364,19 +368,22 @@
 
     Module.prototype.close = function(){
 
-        this.$modalElements.fadeOut(()=>{
-            let $body = $("body");
+        this.$modalElements
+            .fadeOut()
+            .promise()
+            .done(()=>{
+                let $body = $("body");
 
-            if (this.sourceType === "div" && !this.opt.clone) {
-                $body.append($(this.target));
-            }
+                if (this.sourceType === "div" && !this.opt.clone) {
+                    $body.append($(this.target));
+                }
 
-            this.$modalElements.remove();
-            $body.removeClass("js-noScroll");
-        });
+                this.$modalElements.remove();
+                $body.removeClass("js-noScroll");
 
-        if (typeof this.opt.onClose !== "function") return this;
-        setTimeout(()=> this.opt.onClose(), 400);
+                if (typeof this.opt.onClose !== "function") return;
+                this.opt.onClose();
+            });
 
         return this;
     };
