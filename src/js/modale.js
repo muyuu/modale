@@ -273,24 +273,71 @@
     };
 
 
+    Module.prototype.adjustSize = function(width, height){
+        const offset = this.opt.padding;
+        const windowWidth = $(window).width();
+        const windowHeight = $(window).height();
+
+        if(windowWidth <= width) {
+            width = windowWidth - offset;
+        }
+
+        if(windowHeight <= height) {
+            height = windowHeight - offset;
+        }
+        return [width, height];
+    };
+
+
     Module.prototype.setSize = function(width, height){
+        let calcedWidth,  calcedHeight;
+        [calcedWidth, calcedHeight] = this.adjustSize(width, height);
         this.$modal.css({
-            width : width,
-            height: height
+            width : calcedWidth,
+            height: calcedHeight
         });
 
         if (this.opt.btn) {
             this.$modalBtn.css({
-                "margin-top": (height / 2) + this.opt.btnPadding
+                "margin-top": (calcedHeight / 2) + this.opt.btnPadding
             });
         }
 
         if (this.sourceType === "youtube" || this.sourceType === "iframe") {
             this.$modalBody.find("iframe").css({
-                width : width,
-                height: height
+                width : calcedWidth,
+                height: calcedHeight
             });
         }
+
+        return this;
+    };
+
+    Module.prototype.reCalcSize = function(){
+        const contentWidth = this.$modalBody.width();
+        const contentHeight = this.$modalBody.height();
+        const modalWidth = this.$modal.width();
+        const modalHeight = this.$modal.height();
+        let width, height;
+
+        const isSmallWidthContent = ()=> modalWidth > contentWidth;
+        const isSmallHeightContent = ()=> modalHeight > contentHeight;
+        const notNeedAnimate = ()=> !isSmallWidthContent() && !isSmallHeightContent();
+
+        if(isSmallWidthContent()) {
+            width = contentWidth;
+        }
+
+        if(isSmallHeightContent()) {
+            height = contentHeight;
+        }
+
+        if (notNeedAnimate()) return this;
+
+        this.$modal.animate({
+            width,
+            height,
+        }, 300, "swing");
 
         return this;
     };
@@ -304,12 +351,16 @@
 
         $("body").addClass("js-noScroll");
 
-        this.$modalElements.fadeIn(()=>{
-            this.setCloseEvent();
-        });
+        this.$modalElements
+            .fadeIn()
+            .promise()
+            .done(()=>{
+                this.setCloseEvent();
+                this.reCalcSize();
 
-        if (typeof this.opt.onOpen !== "function") return this;
-        setTimeout(()=> this.opt.onOpen(), 400);
+                if (typeof this.opt.onOpen !== "function") return;
+                this.opt.onOpen();
+            });
 
         return this;
     };
@@ -317,19 +368,22 @@
 
     Module.prototype.close = function(){
 
-        this.$modalElements.fadeOut(()=>{
-            let $body = $("body");
+        this.$modalElements
+            .fadeOut()
+            .promise()
+            .done(()=>{
+                let $body = $("body");
 
-            if (this.sourceType === "div" && !this.opt.clone) {
-                $body.append($(this.target));
-            }
+                if (this.sourceType === "div" && !this.opt.clone) {
+                    $body.append($(this.target));
+                }
 
-            this.$modalElements.remove();
-            $body.removeClass("js-noScroll");
-        });
+                this.$modalElements.remove();
+                $body.removeClass("js-noScroll");
 
-        if (typeof this.opt.onClose !== "function") return this;
-        setTimeout(()=> this.opt.onClose(), 400);
+                if (typeof this.opt.onClose !== "function") return;
+                this.opt.onClose();
+            });
 
         return this;
     };
