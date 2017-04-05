@@ -2,15 +2,15 @@
     "use strict";
 
     // img
-    var modal01 = uiModale();
+    let modal01 = uiModale();
 
     // iframe
     var modal02 = uiModale({
-        root: ".js-modale-iframe",
-        type: "iframe",
+        root   : ".js-modale-iframe",
+        type   : "iframe",
         closeEl: "#js-modaleClose",
-        btn: true,
-        btnStr: "閉じる"
+        btn    : true,
+        btnStr : "閉じる"
     });
 
     // youtube
@@ -19,10 +19,16 @@
     });
 
     // div
-    var modaldiv = uiModale({
-        root: ".js-modale-div"
+    let modaldiv = uiModale({
+        root  : ".js-modale-div",
+        onOpen: function(){
+            console.log("open");
+        },
+        onClose: function(){
+            console.log("close");
+        }
     });
-    var modaldivclone = uiModale({
+    let modaldivclone = uiModale({
         root : ".js-modale-div-clone",
         clone: true
     });
