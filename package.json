@@ -1,13 +1,10 @@
 {
   "name": "modale",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "DOM Modal UI module",
   "author": "muyuu",
   "main": "modale.js",
-  "repository": {
-    "sourceType": "git",
-    "url": "https://github.com/muyuu/modale"
-  },
+  "repository": "https://github.com/muyuu/modale",
   "keywords": [
     "modal",
     "browser"
