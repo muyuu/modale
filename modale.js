@@ -296,13 +296,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         if (windowHeight <= height) {
             height = windowHeight - offset;
         }
-        return [width, height];
+        return { width: width, heigth: height };
     };
 
     Module.prototype.setSize = function (width, height) {
-        var arr = this.adjustSize(width, height);
-        var calcedWidth = arr.width;
-        var calcedHeight = arr.height;
+        var obj = this.adjustSize(width, height);
+        var calcedWidth = obj.width;
+        var calcedHeight = obj.height;
 
         // fixed scroll
         this.currentScrollY = $(window).scrollTop();

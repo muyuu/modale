@@ -292,14 +292,14 @@
         if(windowHeight <= height) {
             height = windowHeight - offset;
         }
-        return [width, height];
+        return {width: width, heigth: height};
     };
 
 
     Module.prototype.setSize = function(width, height){
-        const arr = this.adjustSize(width, height);
-        let calcedWidth = arr.width;
-        let calcedHeight = arr.height;
+        const obj = this.adjustSize(width, height);
+        let calcedWidth = obj.width;
+        let calcedHeight = obj.height;
 
         // fixed scroll
         this.currentScrollY = $( window ).scrollTop();
