@@ -55,9 +55,12 @@
         if (isUndefined(opt.root)) $self = $(rootElement);
         if (!isUndefined(opt.root)) $self = opt.root instanceof jQuery ? param.root : $(param.root);
 
-        return $self.map((key, val)=>{
-            new Module(opt, val);
-        });
+        let length = $self.length;
+        let result = [];
+        for (let i = 0; i < length; i++) {
+            result[i] = new Module(opt, $self[i]);
+        }
+        return result;
     }
 
 
