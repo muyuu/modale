@@ -299,6 +299,13 @@
     Module.prototype.setSize = function(width, height){
         let calcedWidth,  calcedHeight;
         [calcedWidth, calcedHeight] = this.adjustSize(width, height);
+
+        // fixed scroll
+        this.currentScrollY = $( window ).scrollTop();
+        $("body, html").css({
+            top: -1 * this.currentScrollY
+        });
+
         this.$modal.css({
             width : calcedWidth,
             height: calcedHeight
@@ -381,6 +388,7 @@
             .fadeOut()
             .promise()
             .done(()=>{
+
                 let $body = $("body");
 
                 if (this.sourceType === "div" && !this.opt.clone) {
@@ -389,6 +397,10 @@
 
                 this.$modalElements.remove();
                 $body.removeClass("js-noScroll");
+
+                // fixed scroll
+                $("body, html").attr({style: ""})
+                    .prop( { scrollTop: this.currentScrollY } );
 
                 if (typeof this.opt.onClose !== "function") return;
                 this.opt.onClose();
