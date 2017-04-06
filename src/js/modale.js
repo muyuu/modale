@@ -97,6 +97,9 @@
             onClose: isUndefined(param.onClose) ? null : param.onClose
         };
 
+        // state
+        this.isOpen = false;
+
 
         this.$root.on("click", (e)=>{
             e.preventDefault();
@@ -110,6 +113,7 @@
 
 
     Module.prototype.init = function(){
+        this.isOpen = true;
         this.setTarget();
         this.setType();
         this.drawModalElement();
@@ -370,6 +374,8 @@
 
 
     Module.prototype.close = function(){
+
+        if(!this.isOpen) return this;
 
         this.$modalElements
             .fadeOut()
