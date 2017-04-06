@@ -292,7 +292,7 @@
         if(windowHeight <= height) {
             height = windowHeight - offset;
         }
-        return {width: width, heigth: height};
+        return {width: width, height: height};
     };
 
 

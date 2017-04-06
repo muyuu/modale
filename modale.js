@@ -296,7 +296,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         if (windowHeight <= height) {
             height = windowHeight - offset;
         }
-        return { width: width, heigth: height };
+        return { width: width, height: height };
     };
 
     Module.prototype.setSize = function (width, height) {
