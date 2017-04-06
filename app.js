@@ -28,6 +28,11 @@
             console.log("close");
         }
     });
+    $(".close_modal_btn").on("click", function(){
+        for (let i = 0; i < modaldiv.length; i++) {
+            modaldiv[i].close();
+        }
+    });
     let modaldivclone = uiModale({
         root : ".js-modale-div-clone",
         clone: true
