@@ -74,9 +74,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         if (isUndefined(opt.root)) $self = $(rootElement);
         if (!isUndefined(opt.root)) $self = opt.root instanceof jQuery ? param.root : $(param.root);
 
-        return $self.map(function (key, val) {
-            new Module(opt, val);
-        });
+        var length = $self.length;
+        var result = [];
+        for (var i = 0; i < length; i++) {
+            result[i] = new Module(opt, $self[i]);
+        }
+        return result;
     }
 
     /**
@@ -98,7 +101,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             padding: isUndefined(param.padding) ? 40 : param.padding,
 
             type: isUndefined(param.type) ? "img" : param.type,
-            closeEl: isUndefined(param.closeEl) ? "#js-modaleOverlay, #js-modaleClose" : param.closeEl,
+            closeEl: isUndefined(param.closeEl) ? ".js-modaleClose" : param.closeEl,
 
             startOpen: isUndefined(param.startOpen) ? false : param.startOpen,
 
@@ -113,6 +116,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             onClose: isUndefined(param.onClose) ? null : param.onClose
         };
 
+        // state
+        this.isOpen = false;
+
         this.$root.on("click", function (e) {
             e.preventDefault();
 
@@ -124,6 +130,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     }
 
     Module.prototype.init = function () {
+        this.isOpen = true;
         this.setTarget();
         this.setType();
         this.drawModalElement();
@@ -248,7 +255,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     };
 
     Module.prototype.setModalCloseElements = function () {
-        this.$modalCloseElements = $(this.opt.closeEl);
+        this.$modalCloseElements = $("#js-modaleOverlay, " + this.opt.closeEl);
         return this;
     };
 
@@ -384,6 +391,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     Module.prototype.close = function () {
         var _this4 = this;
+
+        if (!this.isOpen) return this;
 
         this.$modalElements.fadeOut().promise().done(function () {
             var $body = $("body");
