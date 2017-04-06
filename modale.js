@@ -305,12 +305,17 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         var calcedWidth = void 0,
             calcedHeight = void 0;
 
+        // fixed scroll
         var _adjustSize = this.adjustSize(width, height);
 
         var _adjustSize2 = _slicedToArray(_adjustSize, 2);
 
         calcedWidth = _adjustSize2[0];
         calcedHeight = _adjustSize2[1];
+        this.currentScrollY = $(window).scrollTop();
+        $("body, html").css({
+            top: -1 * this.currentScrollY
+        });
 
         this.$modal.css({
             width: calcedWidth,
@@ -395,6 +400,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         if (!this.isOpen) return this;
 
         this.$modalElements.fadeOut().promise().done(function () {
+
             var $body = $("body");
 
             if (_this4.sourceType === "div" && !_this4.opt.clone) {
@@ -403,6 +409,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
             _this4.$modalElements.remove();
             $body.removeClass("js-noScroll");
+
+            // fixed scroll
+            $("body, html").attr({ style: "" }).prop({ scrollTop: _this4.currentScrollY });
 
             if (typeof _this4.opt.onClose !== "function") return;
             _this4.opt.onClose();
