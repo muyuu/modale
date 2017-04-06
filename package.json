@@ -1,6 +1,6 @@
 {
   "name": "modale",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "description": "DOM Modal UI module",
   "author": "muyuu",
   "main": "modale.js",
