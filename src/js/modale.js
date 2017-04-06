@@ -297,8 +297,9 @@
 
 
     Module.prototype.setSize = function(width, height){
-        let calcedWidth,  calcedHeight;
-        [calcedWidth, calcedHeight] = this.adjustSize(width, height);
+        const arr = this.adjustSize(width, height);
+        let calcedWidth = arr.width;
+        let calcedHeight = arr.height;
 
         // fixed scroll
         this.currentScrollY = $( window ).scrollTop();
