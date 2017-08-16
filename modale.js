@@ -111,7 +111,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
             // callback
             onOpen: isUndefined(param.onOpen) ? null : param.onOpen,
-            onClose: isUndefined(param.onClose) ? null : param.onClose
+            onClose: isUndefined(param.onClose) ? null : param.onClose,
+            onClickContent: isUndefined(param.onClickContent) ? null : param.onClickContent
         };
 
         // state
@@ -237,6 +238,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
 
         this.$modalBody.append(contentStr);
+
+        if (typeof this.opt.onClickContent !== "function") return this;
+        this.opt.onClickContent(this.$root, this.$modalBody);
         return this;
     };
 

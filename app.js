@@ -2,7 +2,17 @@
     "use strict";
 
     // img
-    let modal01 = uiModale();
+    let modal01 = uiModale({
+        onClickContent: function($el, $content){
+            let href = $el.attr("data-link");
+            $content.on("click", function(){
+                location.href = href;
+            });
+        },
+        onClose: function(){
+
+        }
+    });
 
     // iframe
     var modal02 = uiModale({

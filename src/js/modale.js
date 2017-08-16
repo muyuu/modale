@@ -93,8 +93,9 @@
             btnPadding: isUndefined(param.btnPadding) ? 20 : param.btnPadding,
 
             // callback
-            onOpen : isUndefined(param.onOpen) ? null : param.onOpen,
-            onClose: isUndefined(param.onClose) ? null : param.onClose
+            onOpen        : isUndefined(param.onOpen) ? null : param.onOpen,
+            onClose       : isUndefined(param.onClose) ? null : param.onClose,
+            onClickContent: isUndefined(param.onClickContent) ? null : param.onClickContent,
         };
 
         // state
@@ -231,6 +232,9 @@
         }
 
         this.$modalBody.append(contentStr);
+
+        if (typeof this.opt.onClickContent !== "function") return this;
+        this.opt.onClickContent(this.$root, this.$modalBody);
         return this;
     };
 
