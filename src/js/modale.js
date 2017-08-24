@@ -387,6 +387,9 @@
         }
         this.reCalcSize();
 
+        if (typeof this.opt.beforeOpen !== "function") return;
+        this.opt.beforeOpen();
+
         this.$modalElements
             .animate({opacity: 1},1000)
             .promise()
