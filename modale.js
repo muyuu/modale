@@ -1,6 +1,6 @@
 "use strict";
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 (function (definition) {
     "use strict";
@@ -96,7 +96,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             root: moduleRoot,
             width: isUndefined(param.width) ? 800 : param.width,
             height: isUndefined(param.height) ? 600 : param.height,
-            padding: isUndefined(param.padding) ? 40 : param.padding,
+            padding: isUndefined(param.padding) ? 80 : param.padding,
 
             type: isUndefined(param.type) ? "img" : param.type,
             closeEl: isUndefined(param.closeEl) ? ".js-modaleClose" : param.closeEl,
@@ -110,6 +110,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             btnPadding: isUndefined(param.btnPadding) ? 20 : param.btnPadding,
 
             // callback
+            beforeOpen: isUndefined(param.beforeOpen) ? null : param.beforeOpen,
             onOpen: isUndefined(param.onOpen) ? null : param.onOpen,
             onClose: isUndefined(param.onClose) ? null : param.onClose,
             onClickContent: isUndefined(param.onClickContent) ? null : param.onClickContent
@@ -265,19 +266,17 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         var _this2 = this;
 
         if (this.sourceType === "img") {
-            (function () {
 
-                var img = new Image();
-                img.src = _this2.target;
+            var img = new Image();
+            img.src = this.target;
 
-                img.onload = function () {
-                    _this2.setSize(img.width, img.height);
+            img.onload = function () {
+                _this2.setSize(img.width, img.height);
 
-                    // callback function
-                    if (typeof func !== "function") return false;
-                    func.apply(_this2);
-                };
-            })();
+                // callback function
+                if (typeof func !== "function") return false;
+                func.apply(_this2);
+            };
         } else {
 
             this.setSize(this.opt.width, this.opt.height);
@@ -325,6 +324,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             });
         }
 
+        if (this.sourceType === "img") {
+            this.$modalBody.css({
+                width: "100%",
+                height: "100%"
+            });
+        }
         if (this.sourceType === "youtube" || this.sourceType === "iframe") {
             this.$modalBody.find("iframe").css({
                 width: calcedWidth,
@@ -380,9 +385,18 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
         $("body").addClass("js-noScroll");
 
-        this.$modalElements.fadeIn().promise().done(function () {
+        this.$modalElements.css({ display: "block" });
+
+        if (this.opt.type === "img") {
+            var img = this.$modalBody.find("img");
+            var width = img.width();
+            var height = img.height();
+            this.$modalBody.css({ width: width, height: height });
+        }
+        this.reCalcSize();
+
+        this.$modalElements.animate({ opacity: 1 }, 1000).promise().done(function () {
             _this3.setCloseEvent();
-            _this3.reCalcSize();
 
             if (typeof _this3.opt.onOpen !== "function") return;
             _this3.opt.onOpen();

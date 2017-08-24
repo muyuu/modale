@@ -4,6 +4,7 @@ body.js-noScroll {
 
 .ui-modal {
   display: none;
+  opacity: 0;
   overflow: auto;
   position: fixed;
   z-index: 10001;
@@ -44,6 +45,9 @@ body.js-noScroll {
     display: inherit; }
   .ui-modal iframe {
     vertical-align: top; }
+  .ui-modal img {
+    max-height: 100%;
+    max-width: 100%; }
 
 .inner-content {
   background: #fff;

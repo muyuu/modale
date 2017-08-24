@@ -79,7 +79,7 @@
             root   : moduleRoot,
             width  : isUndefined(param.width) ? 800 : param.width,
             height : isUndefined(param.height) ? 600 : param.height,
-            padding: isUndefined(param.padding) ? 40 : param.padding,
+            padding: isUndefined(param.padding) ? 80 : param.padding,
 
             type   : isUndefined(param.type) ? "img" : param.type,
             closeEl: isUndefined(param.closeEl) ? ".js-modaleClose" : param.closeEl,
@@ -93,6 +93,7 @@
             btnPadding: isUndefined(param.btnPadding) ? 20 : param.btnPadding,
 
             // callback
+            beforeOpen    : isUndefined(param.beforeOpen) ? null : param.beforeOpen,
             onOpen        : isUndefined(param.onOpen) ? null : param.onOpen,
             onClose       : isUndefined(param.onClose) ? null : param.onClose,
             onClickContent: isUndefined(param.onClickContent) ? null : param.onClickContent,
@@ -322,6 +323,12 @@
             });
         }
 
+        if (this.sourceType === "img") {
+            this.$modalBody.css({
+                width : "100%",
+                height: "100%",
+            });
+        }
         if (this.sourceType === "youtube" || this.sourceType === "iframe") {
             this.$modalBody.find("iframe").css({
                 width : calcedWidth,
@@ -370,12 +377,21 @@
 
         $("body").addClass("js-noScroll");
 
+        this.$modalElements.css({display: "block"});
+
+        if ( this.opt.type === "img") {
+            const img = this.$modalBody.find("img");
+            const width = img.width();
+            const height = img.height();
+            this.$modalBody.css({width, height});
+        }
+        this.reCalcSize();
+
         this.$modalElements
-            .fadeIn()
+            .animate({opacity: 1},1000)
             .promise()
             .done(()=>{
                 this.setCloseEvent();
-                this.reCalcSize();
 
                 if (typeof this.opt.onOpen !== "function") return;
                 this.opt.onOpen();
